@@ -12,7 +12,7 @@ public class TestHomework {
 		punteggio = (int)Math.round((double)(giusti * 100.0)/ (double)tests);
 	}
 	
-	public static void stampaRisultatoTest() {
+	public static void stampaRisultatoTest() { //stampa il risultato
 		normalizza();
 
 		System.out.println();
