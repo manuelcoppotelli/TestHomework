@@ -124,7 +124,7 @@ public class TestHomework {
 
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
-			System.out.println("Uso: java ProvaHomework <NomeClasseDaTestare>");
+			System.out.println("Uso: java TestHomework <NomeClasseDaTestare>");
 			System.out.println("<NomeClasseDaTestare> è il nome della classe che vuoi testare (senza .java or .class)");
 			System.exit(1);
 		}
