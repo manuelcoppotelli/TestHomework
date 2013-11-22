@@ -19,11 +19,11 @@ public class TestHomework {
 		System.out.println("===============================================");
 		System.out.println("(*) ESITO TEST ");
 		System.out.println("  > Test passati: " + giusti + "/" + tests);
-		System.out.println("  > Punteggio   : " + punteggio + "/100");
+		System.out.println("  > Punteggio   : " + punteggio + "%");
 		System.out.println("-----------------------------------------------");
 	}
 
-	private static void compareFiles(int t) throws Exception {
+	private static void compareFiles(int t, boolean verbose) throws Exception {
 		boolean tuttogiusto = true;
 		System.out.println();
 		System.out.println("===============================================");
@@ -51,17 +51,23 @@ public class TestHomework {
 
 			if (!str1.equals(str2)) {
 				tuttogiusto = false;
-				System.out.println("  > Valore calcolato:" + str2);
-				System.out.println("  > Valore atteso   :" + str1);
-				System.out.println("  > Linea           :" + count1);
-				System.out.println("  > ############## [ERR] ##############");
-				System.out.println("-----------------------------------------------");
+				if (verbose) {
+					System.out.println("  > Valore calcolato:" + str2);
+					System.out.println("  > Valore atteso   :" + str1);
+					System.out.println("  > Linea           :" + count1);
+					System.out.println("  > ############## [ERR] ##############");
+					System.out.println("-----------------------------------------------");
+				}
+	
 			} else {
-				System.out.println("  > Valore calcolato:" + str2);
-				System.out.println("  > Valore atteso   :" + str1);
-				System.out.println("  > Linea           :" + count1);
-				System.out.println("  > [OK]");
-				System.out.println("-----------------------------------------------");
+				if (verbose) {
+					System.out.println("  > Valore calcolato:" + str2);
+					System.out.println("  > Valore atteso   :" + str1);
+					System.out.println("  > Linea           :" + count1);
+					System.out.println("  > [OK]");
+					System.out.println("-----------------------------------------------");
+				}
+				
 			}
 			str1 = sc1.readLine();
 			str2 = sc2.readLine();
@@ -70,35 +76,43 @@ public class TestHomework {
 		while (str2 == null && str1 != null) {
 			count1++;
 			tuttogiusto = false;
-			System.out.println("  > Valore calcolato:" + str1);
-			System.out.println("  > Valore atteso   :EOF");
-			System.out.println("  > Linea           :" + count1);
-			System.out.println("  > ############## [ERR] ##############");
-			System.out.println("-----------------------------------------------");
-			str1 = sc1.readLine();
+			if (verbose) {
+				System.out.println("  > Valore calcolato:" + str1);
+				System.out.println("  > Valore atteso   :EOF");
+				System.out.println("  > Linea           :" + count1);
+				System.out.println("  > ############## [ERR] ##############");
+				System.out.println("-----------------------------------------------");
+			}
+					str1 = sc1.readLine();
 		}
 		
 		while (str1 == null && str2 != null) {
 			count2++;
 			tuttogiusto = false;
-			System.out.println("  > Valore calcolato:EOF");
-			System.out.println("  > Valore atteso   :" + str2);
-			System.out.println("  > Linea           :" + count2);
-			System.out.println("  > ############## [ERR] ##############");
-			System.out.println("-----------------------------------------------");
+
+			if (verbose) {
+				System.out.println("  > Valore calcolato:EOF");
+				System.out.println("  > Valore atteso   :" + str2);
+				System.out.println("  > Linea           :" + count2);
+				System.out.println("  > ############## [ERR] ##############");
+				System.out.println("-----------------------------------------------");
+			}
+	
 			str2 = sc2.readLine();
 		}
 
 		sc1.close();
 		sc2.close();
 
-		System.out.println();
-
 		if (tuttogiusto)
 			giusti++;
+
+		if (!verbose)
+			System.out.println((tuttogiusto?"  > [OK]":"  > ############## [ERR] ##############"));
+			
 	}
 
-	private static void doTest(int t, Class<?> c) throws Exception {
+	private static void doTest(int t, Class<?> c, boolean verbose) throws Exception {
 		tests++;
 		PrintStream realSystemOut = System.out;
 		InputStream realSystemIn = System.in;
@@ -111,7 +125,7 @@ public class TestHomework {
     	System.setIn(realSystemIn);
     	System.setOut(realSystemOut);
 
-    	compareFiles(t);
+    	compareFiles(t, verbose);
 	}
 
 	public static void executeProgram(Class<?> c) throws Exception {
@@ -124,8 +138,10 @@ public class TestHomework {
 
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
-			System.out.println("Uso: java TestHomework <NomeClasseDaTestare>");
-			System.out.println("<NomeClasseDaTestare> è il nome della classe che vuoi testare (senza .java or .class)");
+			System.out.println("Uso: java TestHomework <NomeClasse> [opzioni]");
+			System.out.println("<NomeClasse> il nome della classe che vuoi testare (senza .java or .class)");
+			System.out.println("[opzioni] -v modo dettagliato");
+			System.out.println("[opzioni] -s=[num] esegue solo il test numero [num]");
 			System.exit(1);
 		}
 
@@ -151,11 +167,24 @@ public class TestHomework {
 				System.exit(1);	
 			}
 
+			boolean verbose = false;
+			boolean single = false;
+			if (args.length == 2) {
+				verbose = args[1].equals("-v");
+				single = args[1].substring(0,3).equals("-s=");
+			}
+			
+		if (!single) {
 			int t = 1;
 			while(new File(t+".in").exists()) {
-				doTest(t, myclass);
+				doTest(t, myclass, verbose);
 				t++;
 			}
+
+		} else {
+			int t = Integer.parseInt(args[1].substring(3,args[1].length()));
+			doTest(t, myclass, true);
+		}
 
 			stampaRisultatoTest();
 
