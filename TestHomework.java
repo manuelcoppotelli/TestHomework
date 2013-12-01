@@ -140,8 +140,9 @@ public class TestHomework {
 		if (args.length == 0) {
 			System.out.println("Uso: java TestHomework <NomeClasse> [opzioni]");
 			System.out.println("<NomeClasse> il nome della classe che vuoi testare (senza .java or .class)");
-			System.out.println("[opzioni] -v modo dettagliato");
-			System.out.println("[opzioni] -s=[num] esegue solo il test numero [num]");
+			System.out.println("[opzioni]:");
+			System.out.println("            -v          modo dettagliato");
+			System.out.println("            -s=[num]    esegue solo il test numero [num]");
 			System.exit(1);
 		}
 
@@ -170,8 +171,10 @@ public class TestHomework {
 			boolean verbose = false;
 			boolean single = false;
 			if (args.length == 2) {
-				verbose = args[1].equals("-v");
-				single = args[1].substring(0,3).equals("-s=");
+				if (args[1].equals("-v"))
+					verbose = true;
+				else 
+					single = args[1].substring(0,3).equals("-s=");
 			}
 			
 		if (!single) {
