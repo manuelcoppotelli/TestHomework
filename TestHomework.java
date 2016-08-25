@@ -15,19 +15,19 @@ public class TestHomework {
 	public static void stampaRisultatoTest() { //stampa il risultato
 		normalizza();
 
-		System.out.println();
-		System.out.println("===============================================");
-		System.out.println("(*) ESITO TEST ");
-		System.out.println("  > Test passati: " + giusti + "/" + tests);
-		System.out.println("  > Punteggio   : " + punteggio + "%");
-		System.out.println("-----------------------------------------------");
+		System.err.println();
+		System.err.println("===============================================");
+		System.err.println("(*) ESITO TEST ");
+		System.err.println("  > Test passati: " + giusti + "/" + tests);
+		System.err.println("  > Punteggio   : " + punteggio + "%");
+		System.err.println("-----------------------------------------------");
 	}
 
 	private static void compareFiles(int t, boolean verbose) throws Exception {
 		boolean tuttogiusto = true;
-		System.out.println();
-		System.out.println("===============================================");
-		System.out.println("(*) TEST " + t);
+		System.err.println();
+		System.err.println("===============================================");
+		System.err.println("(*) TEST " + t);
 
 		File f1 = new File("sol"+t+".in");
 		File f2 = new File("res"+t+".out");
@@ -52,20 +52,20 @@ public class TestHomework {
 			if (!str1.equals(str2)) {
 				tuttogiusto = false;
 				if (verbose) {
-					System.out.println("  > Valore calcolato:" + str2);
-					System.out.println("  > Valore atteso   :" + str1);
-					System.out.println("  > Linea           :" + count1);
-					System.out.println("  > ############## [ERR] ##############");
-					System.out.println("-----------------------------------------------");
+					System.err.println("  > Valore calcolato:" + str2);
+					System.err.println("  > Valore atteso   :" + str1);
+					System.err.println("  > Linea           :" + count1);
+					System.err.println("  > ############## [ERR] ##############");
+					System.err.println("-----------------------------------------------");
 				}
 	
 			} else {
 				if (verbose) {
-					System.out.println("  > Valore calcolato:" + str2);
-					System.out.println("  > Valore atteso   :" + str1);
-					System.out.println("  > Linea           :" + count1);
-					System.out.println("  > [OK]");
-					System.out.println("-----------------------------------------------");
+					System.err.println("  > Valore calcolato:" + str2);
+					System.err.println("  > Valore atteso   :" + str1);
+					System.err.println("  > Linea           :" + count1);
+					System.err.println("  > [OK]");
+					System.err.println("-----------------------------------------------");
 				}
 				
 			}
@@ -77,11 +77,11 @@ public class TestHomework {
 			count1++;
 			tuttogiusto = false;
 			if (verbose) {
-				System.out.println("  > Valore calcolato:" + str1);
-				System.out.println("  > Valore atteso   :EOF");
-				System.out.println("  > Linea           :" + count1);
-				System.out.println("  > ############## [ERR] ##############");
-				System.out.println("-----------------------------------------------");
+				System.err.println("  > Valore calcolato:" + str1);
+				System.err.println("  > Valore atteso   :EOF");
+				System.err.println("  > Linea           :" + count1);
+				System.err.println("  > ############## [ERR] ##############");
+				System.err.println("-----------------------------------------------");
 			}
 					str1 = sc1.readLine();
 		}
@@ -91,11 +91,11 @@ public class TestHomework {
 			tuttogiusto = false;
 
 			if (verbose) {
-				System.out.println("  > Valore calcolato:EOF");
-				System.out.println("  > Valore atteso   :" + str2);
-				System.out.println("  > Linea           :" + count2);
-				System.out.println("  > ############## [ERR] ##############");
-				System.out.println("-----------------------------------------------");
+				System.err.println("  > Valore calcolato:EOF");
+				System.err.println("  > Valore atteso   :" + str2);
+				System.err.println("  > Linea           :" + count2);
+				System.err.println("  > ############## [ERR] ##############");
+				System.err.println("-----------------------------------------------");
 			}
 	
 			str2 = sc2.readLine();
@@ -108,7 +108,7 @@ public class TestHomework {
 			giusti++;
 
 		if (!verbose)
-			System.out.println((tuttogiusto?"  > [OK]":"  > ############## [ERR] ##############"));
+			System.err.println((tuttogiusto?"  > [OK]":"  > ############## [ERR] ##############"));
 			
 	}
 
@@ -138,23 +138,23 @@ public class TestHomework {
 
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
-			System.out.println("Uso: java TestHomework <NomeClasse> [opzioni]");
-			System.out.println("<NomeClasse> il nome della classe che vuoi testare (senza .java or .class)");
-			System.out.println("[opzioni]:");
-			System.out.println("            -v          modo dettagliato");
-			System.out.println("            -s=[num]    esegue solo il test numero [num]");
+			System.err.println("Uso: java TestHomework <NomeClasse> [opzioni]");
+			System.err.println("<NomeClasse> il nome della classe che vuoi testare (senza .java or .class)");
+			System.err.println("[opzioni]:");
+			System.err.println("            -v          modo dettagliato");
+			System.err.println("            -s=[num]    esegue solo il test numero [num]");
 			System.exit(1);
 		}
 
 		String className = args[0];
 
 		if (className.endsWith(".java")) {
-			System.out.println("Inerire il nome della classe SENZA .java");
+			System.err.println("Inerire il nome della classe SENZA .java");
 			System.exit(1);
 		}
 
 		if (className.endsWith(".class")) {
-			System.out.println("Inerire il nome della classe SENZA .class");
+			System.err.println("Inerire il nome della classe SENZA .class");
 			System.exit(1);
 		}
 
@@ -164,7 +164,7 @@ public class TestHomework {
 			int modifier = myclass.getModifiers();
 
 			if (!className.equals("Main") && modifier == Modifier.PUBLIC) {
-				System.out.println("La classe NOT DEVE essere dichiarata PUBLIC");
+				System.err.println("La classe NOT DEVE essere dichiarata PUBLIC");
 				System.exit(1);	
 			}
 
@@ -192,16 +192,16 @@ public class TestHomework {
 			stampaRisultatoTest();
 
 		} catch (ClassNotFoundException cnfe){
-			System.out.println("Devi compilare manualmente la classe " + args[0] + " prima di testarla");
+			System.err.println("Devi compilare manualmente la classe " + args[0] + " prima di testarla");
 		}
 	}
 
 	private static void init() {
-        System.out.println("@Test iniziato");
+        System.err.println("@Test iniziato");
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
-                System.out.flush();
+                System.err.flush();
                 System.err.flush();
                 System.err.println("===============================================");
                 e.printStackTrace();
